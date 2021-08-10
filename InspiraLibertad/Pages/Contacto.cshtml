@@ -1,0 +1,51 @@
+﻿@page
+@model InspiraLibertad.Pages.ContactoModel
+
+@{
+    ViewData["Title"] = "Contacto";
+}
+
+<style>
+    body {
+        background: url("../img/fondo.png") no-repeat;
+        background-size: 120vw;
+        background-position: bottom right;
+    }
+</style>
+
+<div class="row">
+    <div class="col-6">
+        <h3 class="text-success">Contacto</h3>
+    </div>
+</div>
+
+<div class="row pl-5 pt-3 mt-5">
+    <div class="col-10 col-md-5">
+        <form method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Mensajes.Nombre" class="control-label"></label>
+                <input asp-for="Mensajes.Nombre" class="form-control" />
+                <span asp-validation-for="Mensajes.Nombre" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Mensajes.Email" class="control-label"></label>
+                <input asp-for="Mensajes.Email" class="form-control" />
+                <span asp-validation-for="Mensajes.Email" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Mensajes.Mensaje" class="control-label"></label>
+                <textarea asp-for="Mensajes.Mensaje" class="form-control"></textarea>
+                <span asp-validation-for="Mensajes.Mensaje" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Enviar" class="btn btn-success" />
+            </div>
+        </form>
+    </div>
+</div>
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

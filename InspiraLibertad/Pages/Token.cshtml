@@ -1,0 +1,27 @@
+﻿@page "{token}"
+@model InspiraLibertad.Pages.TokenModel
+@{
+    ViewData["Title"] = "Token";
+
+}
+
+<h2 class="m-5">Validación de Email</h2>
+<hr />  
+<div id="divDanger" style="display: none" class="alert alert-danger m-5">Email NO validado</div>
+<div id="divInfo" style="display: none" class="alert alert-success m-5">Cuenta activada. Ya puede acceder a Inspira Libertad.</div>
+
+
+
+
+<script>
+
+if (@ViewData["resp"] == 0)
+{
+    document.getElementById("divDanger").style.display = "block";
+}
+else if(@ViewData["resp"] == 1)
+{
+    document.getElementById("divInfo").style.display = "block";
+}
+
+</script>

@@ -1,0 +1,58 @@
+﻿@page
+@model InspiraLibertad.Pages.aPersonalModel
+@{
+    ViewData["Title"] = "Area Personal";
+}
+
+
+<style>
+    body {
+        background: url("../img/fondo.png") no-repeat;
+        background-size: 120vw;
+        background-position: bottom right;
+    }
+</style>
+
+<div class="row">
+    <div class="col-8">
+        <h3 class="text-success">Area Personal</h3>
+    </div>
+</div>
+<div class="row p-4 mt-5">
+    <div class="col-5">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Mis cursos</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach(var item in Model.listaProductos)
+            {
+                <tr>
+                    <td>@item.Nombre</td>
+                    <td><video controls="controls" style="width: 150px; height: 100px;">
+                        <source src=@item.Video type="video/mp4" />
+                        </video>
+                    </td>
+                </tr>
+            }
+            </tbody>
+        </table>
+    </div>
+    @*<div class="col-7">
+        <video id="video" controls="controls" style="display: none; width: 150px; height: 100px;">
+            <source src="" type="video/mp4" />
+        </video>
+    </div>*@
+</div>
+
+
+<script>
+    let video = document.getElementById("video");
+    function ver(id, ruta) {
+        video.style.display = "block";
+        video.setAttribute(" src " , ruta);
+    }
+</script>
