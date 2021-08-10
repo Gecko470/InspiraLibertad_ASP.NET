@@ -15,8 +15,8 @@ namespace InspiraLibertad.Clases
 
             try
             {
-                string correo = "juangomezsousa@outlook.com";
-                string clave = "paloM6597";
+                string correo = "micorreo";
+                string clave = "miclave";
                 string servidor = "smtp.office365.com";
                 int puerto = 25;
 
