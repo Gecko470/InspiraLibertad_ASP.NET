@@ -2,6 +2,11 @@
 @model IndexModel
 @{
     ViewData["Title"] = "Inspira Libertad";
+    string res1 = (string)ViewData["res1"];
+    string res2 = (string)ViewData["res2"];
+    string res3 = (string)ViewData["res3"];
+
+    Stack<string> noCursos = (Stack<string>)ViewData["noCursos"];
 }
 
 <style>
@@ -12,4 +17,42 @@
     }
 </style>
 
+@if (res1 == "1")
+{
+    foreach (var noCurso in noCursos)
+    {
+        <div class="row">
+            <div class="alert alert-warning alert-dismissible fade show col-auto" role="alert">
+                <strong>El curso @noCurso ya lo has comprado con anterioridad y no se ha gestionado su compra..</strong>
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+        </div>
+    }
+
+
+}
+@if (res2 == "1")
+{
+    <div class="row">
+        <div class="alert alert-info alert-dismissible fade show col-auto" role="alert">
+            <strong>Compra realizada correctamente. Tienes tus cursos disponibles en tu Área Personal..</strong>
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+    </div>
+}
+@if (res3 == "1")
+{
+    <div class="row">
+        <div class="alert alert-info alert-dismissible fade show col-auto" role="alert">
+            <strong>Sesión iniciada correctamente..</strong>
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+    </div>
+}
 

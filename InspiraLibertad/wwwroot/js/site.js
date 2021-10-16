@@ -7,6 +7,9 @@
 let arrayId = [];
 let arrayC = [];
 let arrayP = [];
+let inpInicio = document.getElementById("inpInicio");
+let btnCompra = document.getElementById("btnCompra");
+let frmCompra = document.getElementById("frmCompra");
 let spanCant = document.getElementById("spanCant");
 spanCant.innerHTML = 0;
 
@@ -25,11 +28,15 @@ function agregar(precio, curso, id) {
         localStorage.setItem('precios', JSON.stringify(arrayP));
         localStorage.setItem('ids', JSON.stringify(arrayId));
         localStorage.setItem('cant', JSON.stringify(arrayC.length));
+
+        document.getElementById("spnCompra").innerHTML = "Curso agregado a tu carrito..";
+        btnCompra.click();
     }
     else {
 
         if (arrayId.includes(id)) {
-            alert("Ya tienes agregado ese curso en el Carrito");
+            document.getElementById("spnCompra").innerHTML = "Ya tienes agregado ese curso en tu carrito..";
+            btnCompra.click();
             return;
         }
         else {
@@ -44,6 +51,9 @@ function agregar(precio, curso, id) {
             localStorage.setItem('precios', JSON.stringify(arrayP));
             localStorage.setItem('ids', JSON.stringify(arrayId));
             localStorage.setItem('cant', JSON.stringify(arrayC.length));
+
+            document.getElementById("spnCompra").innerHTML = "Curso agregado a tu carrito..";
+            btnCompra.click();
         }
 
     }
@@ -84,7 +94,7 @@ function dibujarTabla() {
     text += "<table class='table table-striped'><thead><tr><th>Producto</th><th style='text-align: center;'>Precio</th><th style='text-align: center;'>Acciones</th></tr></thead><tbody>";
     let i;
     for (i = 0; i < arrayC.length; i++) {
-        text += "<tr><td>" + arrayC[i] + "</td><td style='text-align: center;'>" + arrayP[i] + "</td><td style='text-align: center;'><button onclick='eliminar(" + i + ")' class='btn text-danger'>Eliminar</button></td></tr>";
+        text += "<tr><td>" + arrayC[i] + "</td><td style='text-align: center;'>" + arrayP[i] + "</td><td style='text-align: center;'><button onclick='eliminar(" + i + ")' class='btn text-danger'><i class='bi bi-trash'></i></button></td></tr>";
         suma += arrayP[i];
     }
 
@@ -104,6 +114,49 @@ function cargarCarrito() {
 
         dibujarTabla();
     }
+}
+
+function comprar() {
+
+    if (inpInicio.value == "0") {
+        document.getElementById("spnCompra").innerHTML = "Para poder comprar tus cursos debes estar registrado e iniciar sesión..";
+        btnCompra.click();
+    }
+    else {
+        if (arrayId.length == 0) {
+            document.getElementById("spnCompra").innerHTML = "Todavía no has agregado ningún curso a tu carrito..";
+            btnCompra.click();
+        }
+        else {
+
+            for (let i = 0; i < arrayId.length; i++) {
+                let inpCursos = document.createElement("input");
+                inpCursos.name = "inpCursos" + i;
+                inpCursos.type = "hidden";
+                inpCursos.value = arrayId[i];
+                frmCompra.appendChild(inpCursos);
+            }
+            frmCompra.submit();
+
+            vaciarCarrito();
+
+        }
+    }
+}
+
+function vaciarCarrito() {
+
+    arrayC = [];
+    arrayp = [];
+    arrayId = [];
+    spanCant.innerHTML = arrayC.length;
+
+    document.getElementsByClassName("modal-body")[0].innerHTML = "Tu carrito está vacío";
+    localStorage.removeItem('cursos');
+    localStorage.removeItem('precios');
+    localStorage.removeItem('cant');
+    localStorage.removeItem('ids');
+
 }
 
 window.addEventListener('load', cargarCarrito);

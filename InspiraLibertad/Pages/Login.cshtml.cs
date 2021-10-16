@@ -8,12 +8,15 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using InspiraLibertad.Models;
 using System.Security.Cryptography;
 using System.Text;
+using System.Security.Claims;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication;
 
 namespace InspiraLibertad.Pages
 {
     public class LoginModel : PageModel
     {
-        public int _idCliente;
+        public int res = -1;
 
         private readonly InspiraLibertad.Models.ILDBContext _context;
 
@@ -32,7 +35,7 @@ namespace InspiraLibertad.Pages
 
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://aka.ms/RazorPagesCRUD.
-        public IActionResult OnPost()
+        public async Task<IActionResult> OnPost()
         {
             if (!ModelState.IsValid)
             {
@@ -47,18 +50,38 @@ namespace InspiraLibertad.Pages
 
             Login.Password = claveCifradaString;
 
-            int numVeces = _context.Cliente.Where(p => p.NombreUsuario == Login.NombreUsuario && p.Password == Login.Password && p.Token == null).Count();
-            if (numVeces != 0)
+            var usuario = _context.Cliente.Where(p => p.NombreUsuario == Login.NombreUsuario && p.Password == Login.Password).SingleOrDefault();
+            if(usuario == null)
             {
-                _idCliente = _context.Cliente.Where(p => p.NombreUsuario == Login.NombreUsuario && p.Password == Login.Password).First().Id;
-
-                return RedirectToPage("./Index");
+                res = 1;
+                return Page();
+            }
+            else if(usuario != null && usuario.Token != null)
+            {
+                res = 0;
+                return Page();
             }
             else
             {
-                ViewData["respuesta"] = 0;
-                return Page();
+                var usuarioT = _context.Cliente.Where(p => p.NombreUsuario == Login.NombreUsuario && p.Password == Login.Password && p.Token == null).SingleOrDefault();
+
+                var identity = new ClaimsIdentity(CookieAuthenticationDefaults.AuthenticationScheme, ClaimTypes.Name, ClaimTypes.Role);
+                identity.AddClaim(new Claim(ClaimTypes.NameIdentifier, usuario.Id.ToString()));
+                identity.AddClaim(new Claim(ClaimTypes.Name, usuario.NombreUsuario.ToString()));
+
+                var principal = new ClaimsPrincipal(identity);
+                await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal, new AuthenticationProperties { ExpiresUtc = DateTime.Now.AddDays(1), IsPersistent = true });
+                ViewData["res3"] = "1";
+                return Redirect("/Index");
+           
             }
+            
+        }
+
+        public async Task<IActionResult> OnGetLogout()
+        {
+            await HttpContext.SignOutAsync();
+            return RedirectToPage("./Index");
         }
     }
 }

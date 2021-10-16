@@ -3,7 +3,6 @@
 
 @{
     ViewData["Title"] = "Login";
-    ViewData["idCliente"] = Model._idCliente;
 }
 
 <style>
@@ -14,15 +13,32 @@
     }
 </style>
 
-<div class="row">
-    <div class="col-6">
-        <h3 class="text-success">Login</h3>
-    </div>
-</div>
-
-<div class="row pl-5 pt-3 mt-5">
+<div class="row pl-5 pt-3">
     <div class="col-10 col-md-5">
-        <div id="divDanger" style="display: none" class="alert alert-danger">Revisa tu Nombre de Usuario y Constraseña. Cliente no registrado en nuestra base de datos con esas credenciales</div>
+        <h4 class="text-success">Login</h4>
+        <hr />
+        @if (Model.res == 0)
+        {
+            <div class="row">
+                <div class="alert alert-info alert-dismissible fade show col-auto" role="alert">
+                    <strong>Hemos enviado un email a tu dirección de correo electrónico con un link para que actives tu cuenta Inspira Libertad. Debes activarla para poder iniciar sesión..</strong>
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+            </div>
+        }
+        else if (Model.res == 1)
+        {
+            <div class="row">
+                <div class="alert alert-danger alert-dismissible fade show col-auto" role="alert">
+                    <strong>Revisa tus credenciales. Cliente no registrado en nuestra base de datos con esos datos de acceso..</strong>
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+            </div>
+        }
         <form method="post">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
@@ -35,25 +51,17 @@
                 <input asp-for="Login.Password" class="form-control" />
                 <span asp-validation-for="Login.Password" class="text-danger"></span>
             </div>
-            <div class="form-group">
+            <div class="form-group d-flex justify-content-end">
                 <input type="submit" value="Login" class="btn btn-success" />
             </div>
         </form>
-        <a asp-page="/Password">Recupera tu Password</a>
+        <div class="d-flex justify-content-center">
+            <a asp-page="/Password">Recupera tu Password</a>
+        </div>
+
     </div>
 </div>
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-
-<script>
-
-    if (@ViewData["respuesta"] == 0) {
-
-        document.getElementById("divDanger").style.display = "block";
-
-    }
-
-</script>
-
 }

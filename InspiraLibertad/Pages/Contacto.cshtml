@@ -13,14 +13,32 @@
     }
 </style>
 
-<div class="row">
-    <div class="col-6">
-        <h3 class="text-success">Contacto</h3>
-    </div>
-</div>
-
-<div class="row pl-5 pt-3 mt-5">
+<div class="row pl-5 pt-3">
     <div class="col-10 col-md-5">
+        <h4 class="text-success">Contacto</h4>
+        <hr />
+        @if (Model.res == 0)
+        {
+            <div class="row">
+                <div class="alert alert-danger alert-dismissible fade show col-auto" role="alert">
+                    <strong>Ha habido algún problema, el mensaje no ha sido enviado..</strong>
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+            </div>
+        }
+        else if (Model.res == 1)
+        {
+            <div class="row">
+                <div class="alert alert-info alert-dismissible fade show col-auto" role="alert">
+                    <strong>Mensaje enviado correctamente..</strong>
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+            </div>
+        }
         <form method="post">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
@@ -38,7 +56,7 @@
                 <textarea asp-for="Mensajes.Mensaje" class="form-control"></textarea>
                 <span asp-validation-for="Mensajes.Mensaje" class="text-danger"></span>
             </div>
-            <div class="form-group">
+            <div class="form-group d-flex justify-content-end">
                 <input type="submit" value="Enviar" class="btn btn-success" />
             </div>
         </form>

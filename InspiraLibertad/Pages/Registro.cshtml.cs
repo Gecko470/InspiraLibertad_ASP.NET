@@ -15,6 +15,7 @@ namespace InspiraLibertad.Pages
     public class RegistroModel : PageModel
     {
         private readonly InspiraLibertad.Models.ILDBContext _context;
+        public int res = -1;
 
         public RegistroModel(InspiraLibertad.Models.ILDBContext context)
         {
@@ -37,30 +38,48 @@ namespace InspiraLibertad.Pages
             {
                 return Page();
             }
-
-            string clave = Cliente.Password;
-            SHA256Managed sha = new SHA256Managed();
-            byte[] buffer = Encoding.Default.GetBytes(clave);
-            byte[] claveCifrada = sha.ComputeHash(buffer);
-            string claveCifradaString = BitConverter.ToString(claveCifrada).Replace("-", "");
-
-            Cliente.Password = claveCifradaString;
-
-            string token = "";
-            for (int i = 0; i < 20; i++)
+            else
             {
-                Random r = new Random();
-                int n = r.Next(0, 9);
-                token += n.ToString();
+                var nombreUsuario = _context.Cliente.Where(p => p.NombreUsuario == Cliente.NombreUsuario).SingleOrDefault();
+                if(nombreUsuario != null)
+                {
+                    res = 0;
+                    return Page();
+                }
+
+                var emailUsuario = _context.Cliente.Where(p => p.Email == Cliente.Email).SingleOrDefault();
+                if (emailUsuario != null)
+                {
+                    res = 1;
+                    return Page();
+                }
+
+                string clave = Cliente.Password;
+                SHA256Managed sha = new SHA256Managed();
+                byte[] buffer = Encoding.Default.GetBytes(clave);
+                byte[] claveCifrada = sha.ComputeHash(buffer);
+                string claveCifradaString = BitConverter.ToString(claveCifrada).Replace("-", "");
+
+                Cliente.Password = claveCifradaString;
+
+                string token = "";
+                for (int i = 0; i < 20; i++)
+                {
+                    Random r = new Random();
+                    int n = r.Next(0, 9);
+                    token += n.ToString();
+                }
+                Cliente.Token = token;
+
+                Correo.enviarCorreo(Cliente.Email, "Activa tu cuenta en Inspira Libertad", " Para activar tu cuenta en Inspira Libertad haz click <a href='https://localhost:44380/Token/" + token + "'>Aquí</a>");
+
+                _context.Cliente.Add(Cliente);
+                await _context.SaveChangesAsync();
+
+                res = 2;
+                return Page();
             }
-            Cliente.Token = token;
-
-            Correo.enviarCorreo(Cliente.Email, "Activa tu cuenta en Inspira Libertad", " Para activar tu cuenta en Inspira Libertad haz click <a href='https://localhost:44380/Token/" + token + "'>Aquí</a>");
             
-            _context.Cliente.Add(Cliente);
-            await _context.SaveChangesAsync();
-
-            return RedirectToPage("./Index");
         }
     }
 }

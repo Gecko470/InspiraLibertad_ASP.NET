@@ -13,6 +13,7 @@ namespace InspiraLibertad.Pages
     public class PasswordModel : PageModel
     {
         private readonly InspiraLibertad.Models.ILDBContext _context;
+        public int res = -1;
 
         public PasswordModel(InspiraLibertad.Models.ILDBContext context)
         {
@@ -36,16 +37,17 @@ namespace InspiraLibertad.Pages
                 return Page();
             }
 
-            int numVeces = _context.Cliente.Where(p => p.NombreUsuario == Contrasenia.NombreUsuario && p.Email == Contrasenia.Email && p.Telefono == Contrasenia.Telefono && p.Token == null).Count();
-            if (numVeces != 0)
+            bool numVeces = _context.Cliente.Where(p => p.NombreUsuario == Contrasenia.NombreUsuario && p.Email == Contrasenia.Email && p.Telefono == Contrasenia.Telefono && p.Token == null).Any();
+            if (numVeces)
             {
                 Correo.enviarCorreo(Contrasenia.Email, "Recupera tu Password de Inspira Libertad", " Para recuperar tu Password de Inspira Libertad haz click <a href='https://localhost:44380/RecuperarPassword/"+ Contrasenia.Email +"'>Aquí</a>");
 
-                return RedirectToPage("./Index");
+                res = 1;
+                return Page();
             }
             else
             {
-                ViewData["respuesta"] = 0;
+                res = 0;
                 return Page();
             }
         }

@@ -4,12 +4,13 @@
     ViewData["Title"] = "Cursos";
 }
 
-<div class="row">
-    <div class="col-3">
-        <h3 class="text-success">Cursos</h3>
+<div class="row p-4">
+    <div class="col-12 col-lg-8">
+        <h4 class="text-success">Cursos</h4>
+        <hr />
     </div>
 </div>
-<div class="row p-4 mt-5">
+<div class="row px-4">
     <div class="col-12 col-lg-8">
         <p align=left><b>Vivir desde la calma</b></p>
         <p align=left>Guía con todas las herramientas que necesitas para manejar tu Ansiedad</p>
@@ -19,7 +20,9 @@
         <p>Beneficio 1: Llevar integradas tus propias herramientas.</p>
         <p>Beneficio 2: Ser tú mismo/a quien maneja su estado, sin necesidad de recurrir a medicamentos.</p>
         <p>Beneficio 3: Vivir tu vida plenamente desde la calma y la alegría.</p>
-        <button class="btn btn-success" onclick="agregar(40, 'Vivir desde la Calma', 1)">Añadir al carrito</button>
+        <div class="d-flex justify-content-end">
+            <button class="btn btn-success" onclick="agregar(40, 'Vivir desde la Calma', 1)">Añadir al carrito</button>
+        </div>
     </div>
     <div class="col col-lg-4 mt-7">
         <img src="./img/cursos1.jpg" alt="Chica contenta" class="mt-5" />
@@ -35,13 +38,14 @@
         <p>Beneficio 2: Cómo evitar que una caida se convierta en recaida.</p>
         <p>Beneficio 3: Vivir tu vida libre de adicciones.</p>
         <p>Beneficio 1: Identificar qué situaciones son de riesgo y como afrontarlas.</p>
-        <button class="btn btn-success" onclick="agregar(65, 'Prevención de Recaidas en Adicciones', 2)">Añadir al carrito</button>
+        <div class="d-flex justify-content-end">
+            <button class="btn btn-success" onclick="agregar(65, 'Prevención de Recaidas en Adicciones', 2)">Añadir al carrito</button>
+        </div>
     </div>
     <div class="col col-lg-4 mt-7">
         <img src="./img/cursos2.jpg" alt="Hombre sonriente tomando un café" class="mt-5" />
     </div>
 </div>
-
 <div class="row p-4">
     <div class="col-12 col-lg-8">
         <p align=left><b>Uso, Abuso o Dependencia?</b></p>
@@ -52,7 +56,9 @@
         <p>Beneficio 1: Aclarar conceptos y valorar la normalidad.</p>
         <p>Beneficio 2: Comprender qué te puede estar pasando.</p>
         <p>Beneficio 3: Todo es ganar, porque es totalmente gratuito.</p>
-        <button class="btn btn-success" onclick="agregar(45, 'Uso, Abuso o Dependencia', 3)">Añadir al carrito</button>
+        <div class="d-flex justify-content-end">
+            <button class="btn btn-success" onclick="agregar(45, 'Uso, Abuso o Dependencia', 3)">Añadir al carrito</button>
+        </div>
     </div>
     <div class="col col-lg-4 mt-7">
         <img src="./img/cursos3.jpg" alt="Hombre fumando con una caña" class="mt-5" />

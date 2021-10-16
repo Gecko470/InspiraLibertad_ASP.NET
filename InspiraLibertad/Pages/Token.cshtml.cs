@@ -10,6 +10,7 @@ namespace InspiraLibertad.Pages
     public class TokenModel : PageModel
     {
         private readonly InspiraLibertad.Models.ILDBContext _context;
+        public int res = -1;
 
         public TokenModel(InspiraLibertad.Models.ILDBContext context)
         {
@@ -26,11 +27,11 @@ namespace InspiraLibertad.Pages
 
                 _context.SaveChanges();
 
-                ViewData["resp"] = 1;
+                res = 1;
             }
             else
             {
-                ViewData["resp"] = 0;
+                res = 0;
             }
         }
     }

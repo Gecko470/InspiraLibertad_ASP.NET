@@ -1,4 +1,5 @@
 using InspiraLibertad.Models;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -28,6 +29,14 @@ namespace InspiraLibertad
             services.AddRazorPages();
 
             services.AddDbContext<ILDBContext>(options => options.UseSqlServer(Configuration.GetConnectionString("ILDBContext")));
+
+            services.AddAuthentication(options => { 
+                
+                options.DefaultSignInScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+                options.DefaultAuthenticateScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+            
+            }).AddCookie(options => { options.LoginPath = "/Login"; });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -45,9 +54,12 @@ namespace InspiraLibertad
             }
 
             app.UseHttpsRedirection();
+
             app.UseStaticFiles();
 
             app.UseRouting();
+
+            app.UseAuthentication();
 
             app.UseAuthorization();
 

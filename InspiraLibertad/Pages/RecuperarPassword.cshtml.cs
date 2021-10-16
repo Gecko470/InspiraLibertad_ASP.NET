@@ -14,6 +14,7 @@ namespace InspiraLibertad.Pages
     public class RecuperarPasswordModel : PageModel
     {
         private readonly InspiraLibertad.Models.ILDBContext _context;
+        public int res = -1;
 
         public RecuperarPasswordModel(InspiraLibertad.Models.ILDBContext context)
         {
@@ -34,7 +35,7 @@ namespace InspiraLibertad.Pages
         {
             if (!ModelState.IsValid)
             {
-                return Page();
+                
             }
 
             Cliente cliente = _context.Cliente.Where(p => p.Email == email).First();
@@ -48,7 +49,9 @@ namespace InspiraLibertad.Pages
             cliente.Password = claveCifradaString;
             await _context.SaveChangesAsync();
 
-            return RedirectToPage("./Index");
+            res = 1;
+            return Page();
+
         }
     }
 }
